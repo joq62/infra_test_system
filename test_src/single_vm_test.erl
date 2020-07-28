@@ -11,15 +11,14 @@
 %% --------------------------------------------------------------------
 -include_lib("eunit/include/eunit.hrl").
 
--define(CATALOG_FILE,"configs/catalog.config").
 %% --------------------------------------------------------------------
 %-compile(export_all).0
 -export([start/0,stop/0]).
 
 
 -define(VM_1,sthlm_1@asus).
--define(ALL_SERVICES,
-	[{"log_service",sthlm_1@asus},
+-define(INITIAL_SERVICES,
+	[{"sd_service",sthlm_1@asus},
 	 {"vm_service",sthlm_1@asus}]).
 %% ====================================================================
 %% External functions

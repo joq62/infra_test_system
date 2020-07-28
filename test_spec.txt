@@ -1,0 +1,21 @@
+1. General 
+	test node uses config and vm_service , sd_service, log_service, config_service
+	test programs are in test_service and starts automatic
+1.1 test_service
+	* checks if infrastructure working
+	* chaos monkey kills infra services and vm's
+	* checks if application services are working , random checks
+	* chaos monkey kills app services and vm's
+
+	uses log function to store information
+	
+	
+The testnode consists complete vm
+One node
+> Orchistrator on test node
+>  
+1.1 Single node 
+	> sthlm_1@asus 
+	> test service adder_service
+	> test that orchistrator load and starts adder
+	> chaos monkey removes the adder
