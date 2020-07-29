@@ -4,22 +4,23 @@
 %%% Central OaM functions for information 
 %%%  
 %%% -------------------------------------------------------------------
--module(test_service).  
+-module(ta).  
 
 -behaviour(gen_server).
 %% --------------------------------------------------------------------
 %% Include files
 %% --------------------------------------------------------------------
 -include("log.hrl").
-
+-include("test_src/test_suit.hrl").
 %% --------------------------------------------------------------------
 
 %% --------------------------------------------------------------------
 %% Key Data structures
 %% 
 %% --------------------------------------------------------------------
--record(state,{test_suit}).
 
+
+-record(state,{}).
 
 %% --------------------------------------------------------------------
 
@@ -27,8 +28,7 @@
 	 ping/0
 	]).
 
--export([boot/0,
-	 start/0,
+-export([start/0,
 	 stop/0
 	]).
 
@@ -39,9 +39,6 @@
 %% ====================================================================
 %% External functions
 %% ====================================================================
-
-boot()->
-    ok=application:start(?MODULE).
 
 %% Asynchrounus Signals
 
@@ -59,7 +56,7 @@ ping()->
     gen_server:call(?MODULE, {ping},infinity).
 
 do_test()->
-    gen_server:call(?MODULE, {do_test},infinity).
+    gen_server:call(?MODULE, {do_test,?TEST_SUIT},infinity).
 do_test(TestSuit)->
     gen_server:call(?MODULE, {do_test,TestSuit},infinity).
 
@@ -82,9 +79,8 @@ do_test(TestSuit)->
 %
 %% --------------------------------------------------------------------
 init([]) ->
-    {ok,TestSuit}= application:get_env(test_suit),
-    spawn(fun()->auto_test() end),
-    {ok, #state{test_suit=TestSuit}}.
+       
+    {ok, #state{}}.
     
 %% --------------------------------------------------------------------
 %% Function: handle_call/3
@@ -97,14 +93,9 @@ init([]) ->
 %%          {stop, Reason, State}            (aterminate/2 is called)
 %% --------------------------------------------------------------------
 
-handle_call({do_test}, _From, State) ->
-    Reply=[{M,apply(M,F,A)}||{M,F,A}<-State#state.test_suit],
-    {reply, Reply, State};
-
 handle_call({do_test,TestSuit}, _From, State) ->
      Reply=[{M,apply(M,F,A)}||{M,F,A}<-TestSuit],
     {reply, Reply, State};
-
 handle_call({ping}, _From, State) ->
      Reply={pong,node(),?MODULE},
     {reply, Reply, State};
@@ -176,7 +167,4 @@ code_change(_OldVsn, State, _Extra) ->
 %% Description:
 %% Returns: non
 %% --------------------------------------------------------------------
-auto_test()->
-    timer:sleep(1000),
-    io:format("~p~n",[test_service:do_test()]),
-    init:stop().
+

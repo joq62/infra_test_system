@@ -31,8 +31,8 @@ start()->
     ?debugMsg("setup"),    
     ?assertEqual(ok,setup()),
 
-    ?debugMsg("start_stop_service"),    
-    ?assertEqual(ok,start_stop_service()),  
+    ?debugMsg("start_adder"),    
+    ?assertEqual(ok,start_adder()),  
 
 %    ?debugMsg("available_services_1"),    
 %    ?assertEqual(ok,available_services_1()),   
@@ -49,19 +49,20 @@ start()->
 %% Returns: non
 %% --------------------------------------------------------------------
 setup()->
+    
     ?assertMatch({pong,_,vm_service},rpc:call(?VM_1,vm_service,ping,[])),
     rpc:call(?VM_1,vm_service,stop_service,["adder_service"]),
     ok.
-start_stop_service()->
-    ServiceId="adder_service",
+start_adder()->
+
+    {ok,CatalogInfo}=file:consult(?CATALOG_FILE),
+    {ServiceId,Type,Source}=lists:keyfind("adder_service",1,CatalogInfo),
+    ?assertMatch({"adder_service",git,_},{ServiceId,Type,Source}),
     ?assertEqual({ok,"adder_service"},
-		 rpc:call(?VM_1,vm_service,start_service,[ServiceId])),
+		 rpc:call(?VM_1,vm_service,start_service,[ServiceId,Type,Source])),
 %    timer:sleep(1000),
-    [Node]=sd_service:fetch_service(ServiceId),
     ?assertEqual(42,
-		 rpc:call(Node,adder_service,add,[20,22])),
-    ok=rpc:call(?VM_1,vm_service,stop_service,[ServiceId]),
-   []=sd_service:fetch_service(ServiceId),
+		 rpc:call(?VM_1,adder_service,add,[20,22])),
     ok.
     
     

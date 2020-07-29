@@ -18,7 +18,7 @@
 %% Key Data structures
 %% 
 %% --------------------------------------------------------------------
--record(state,{test_suit}).
+-record(state,{}).
 
 
 %% --------------------------------------------------------------------
@@ -82,9 +82,8 @@ do_test(TestSuit)->
 %
 %% --------------------------------------------------------------------
 init([]) ->
-    {ok,TestSuit}= application:get_env(test_suit),
-    spawn(fun()->auto_test() end),
-    {ok, #state{test_suit=TestSuit}}.
+       
+    {ok, #state{}}.
     
 %% --------------------------------------------------------------------
 %% Function: handle_call/3
@@ -98,7 +97,7 @@ init([]) ->
 %% --------------------------------------------------------------------
 
 handle_call({do_test}, _From, State) ->
-    Reply=[{M,apply(M,F,A)}||{M,F,A}<-State#state.test_suit],
+     Reply=not_implemented,
     {reply, Reply, State};
 
 handle_call({do_test,TestSuit}, _From, State) ->
@@ -176,7 +175,4 @@ code_change(_OldVsn, State, _Extra) ->
 %% Description:
 %% Returns: non
 %% --------------------------------------------------------------------
-auto_test()->
-    timer:sleep(1000),
-    io:format("~p~n",[test_service:do_test()]),
-    init:stop().
+
