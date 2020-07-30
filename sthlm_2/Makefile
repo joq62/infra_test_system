@@ -18,4 +18,4 @@ all:
 	git clone https://github.com/joq62/vm_service.git;	
 	cp vm_service/src/*.app vm_service/ebin;
 	erlc -I include -o vm_service/ebin vm_service/src/*.erl;
-	erl -pa */ebin -config test.config -s vm_service boot -sname sthlm_1
+	erl -pa */ebin -config test.config -s vm_service boot -sname sthlm_2

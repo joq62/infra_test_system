@@ -2,6 +2,8 @@ all:
 	rm -rf include configs test_src/*.beam test_ebin/* *_service  erl_crasch.dump;
 #	sthlm_1
 	rm -rf sthlm_1/include sthlm_1/configs sthlm_1/*_service  sthlm_1/erl_crasch.dump;
+#	sthlm_2
+	rm -rf sthlm_2/include sthlm_2/configs sthlm_2/*_service  sthlm_2/erl_crasch.dump;
 test:
 	rm -rf include configs test_src/*.beam test_ebin/* *_service  erl_crasch.dump;
 #	include
