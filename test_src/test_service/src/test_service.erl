@@ -98,7 +98,8 @@ init([]) ->
 %% --------------------------------------------------------------------
 
 handle_call({do_test}, _From, State) ->
-    Reply=[{M,apply(M,F,A)}||{M,F,A}<-State#state.test_suit],
+    Reply=[{M,rpc:call(node(),M,F,A)}||{M,F,A}<-State#state.test_suit],
+%    Reply=[{M,apply(M,F,A)}||{M,F,A}<-State#state.test_suit],
     {reply, Reply, State};
 
 handle_call({do_test,TestSuit}, _From, State) ->
@@ -178,5 +179,4 @@ code_change(_OldVsn, State, _Extra) ->
 %% --------------------------------------------------------------------
 auto_test()->
     timer:sleep(1000),
-    io:format("~p~n",[test_service:do_test()]),
-    init:stop().
+    io:format("~p~n",[test_service:do_test()]).

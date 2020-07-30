@@ -12,6 +12,10 @@ test:
 	git clone https://github.com/joq62/log_service.git;	
 	cp log_service/src/*.app log_service/ebin;
 	erlc -I include -o log_service/ebin log_service/src/*.erl;
+#	orchistrate_service
+	git clone https://github.com/joq62/orchistrate_service.git;	
+	cp orchistrate_service/src/*.app orchistrate_service/ebin;
+	erlc -I include -o orchistrate_service/ebin orchistrate_service/src/*.erl;
 #	config_service
 	git clone https://github.com/joq62/config_service.git;	
 	cp config_service/src/*.app config_service/ebin;
