@@ -1,5 +1,5 @@
 all:
-	rm -rf include configs test_src/*.beam test_ebin/* *_service  erl_crasch.dump;
+	rm -rf include configs test_src/*.beam test_ebin/* *_service  erl_crasch.dump *~ */*~;
 #	sthlm_1
 	rm -rf sthlm_1/include sthlm_1/configs sthlm_1/*_service  sthlm_1/erl_crasch.dump;
 #	sthlm_2
